@@ -1,0 +1,3 @@
+export enum RmqClientTokenEnum {
+  NOTIFICATOR_EMAIL_CLIENT = 'NOTIFICATOR_EMAIL_CLIENT',
+}
