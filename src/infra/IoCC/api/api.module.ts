@@ -1,7 +1,8 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AutomapperModule } from '@automapper/nestjs';
 import { classes } from '@automapper/classes';
 import { apiModules } from '.';
+import { LoggerMiddleware } from 'src/shared/middlewares';
 
 @Module({
   imports: [
@@ -11,5 +12,8 @@ import { apiModules } from '.';
     }),
   ],
 })
-export class ApiModule {}
-
+export class ApiModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}

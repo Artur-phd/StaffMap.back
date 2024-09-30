@@ -1,6 +1,5 @@
 export class CompanyMainUseCase {
-
-    public getInfo() {
-        return 'ok'
-    }
+  public getInfo() {
+    return 'ok';
+  }
 }

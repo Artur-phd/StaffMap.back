@@ -6,7 +6,7 @@ import { AppEnums } from './shared/enums';
 export class AppFactory {
   private readonly configService: ConfigService;
   private readonly bootstrapMessage = ({ port, enviroment, version }) =>
-    `📫 🚚 Delivery app started on ${port} port. Version - ${version}. Environment - ${enviroment}`;
+    `🗺👨🏿‍💻 StaffMap app started on ${port} port. Version - ${version}. Environment - ${enviroment}`;
   public static logger = console;
   private readonly DEV_DOC_PASS = 'q1w2e3r4';
 
