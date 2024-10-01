@@ -32,6 +32,10 @@
 $ pnpm install
 ```
 
+## Create file .env
+
+create .env file using example .example.env
+
 ## Start Docker
 ```bash
 $ docker compose up -d
