@@ -1,1 +1,1 @@
-export * from './company.main,use-case';
+export * from './rate,use-case';

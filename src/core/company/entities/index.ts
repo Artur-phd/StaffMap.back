@@ -1,1 +1,1 @@
-export * from './company.main.entity'
+export * from './rate.entity';
