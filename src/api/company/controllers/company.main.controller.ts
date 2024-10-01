@@ -1,20 +1,23 @@
 import { Controller } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CompanyMainUseCase } from '../use-cases';
+import { RateUseCase } from '../use-cases';
 import { Route } from 'src/shared/decorators';
 import { HttpMethodEnum } from 'src/shared/enums/app';
+import { ResponseDto } from 'src/shared/dtos';
+import { RateEntity } from 'src/core/company/entities';
 
 @ApiTags('company')
 @Controller('company')
 export class CompanyHttpController {
-  constructor(private readonly companyUseCase: CompanyMainUseCase) {}
+  constructor(private readonly rateUseCase: RateUseCase) {}
 
   @Route({
-    title: 'It`s main path for company',
-    description: 'path for get info',
+    title: 'Get the info rate',
+    description: 'Just info',
     method: HttpMethodEnum.GET,
+    path: 'rate',
   })
-  public getInoCompany() {
-    return this.companyUseCase.getInfo();
+  public async getInfoAboutAllRate(): Promise<ResponseDto<RateEntity[]>> {
+    return { data: await this.rateUseCase.getInfoRateAll() };
   }
 }
