@@ -1,8 +1,8 @@
 import { CompanyCoreModule } from 'src/infra/IoCC/core/company.core.module';
-import { CompanyHttpController } from './controllers';
+import { RateHttpController } from './controllers';
 import { RateUseCase } from './use-cases';
 
-export const companyControllers = [CompanyHttpController];
+export const companyControllers = [RateHttpController];
 
 export const companyProviders = [RateUseCase];
 
