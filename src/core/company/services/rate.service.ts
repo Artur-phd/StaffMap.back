@@ -16,6 +16,7 @@ export class RateService {
     return await this.rateRepository.find({
       where: { active: true },
       select: {
+        id: true,
         title: true,
         points: true,
         financialControl: true,
@@ -43,6 +44,16 @@ export class RateService {
     try {
       console.log(`title: ${title}`);
       await this.rateRepository.delete({ title });
+      return { result: true };
+    } catch (error) {
+      return { result: false, error: error };
+    }
+  }
+
+  public async editById(payload: RateDto): Promise<ResultDto<TypeORMError>> {
+    try {
+      const dataUpdate = this.rateRepository.create(payload);
+      await this.rateRepository.update(payload.id, dataUpdate);
       return { result: true };
     } catch (error) {
       return { result: false, error: error };

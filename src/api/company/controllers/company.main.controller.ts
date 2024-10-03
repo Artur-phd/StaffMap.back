@@ -43,4 +43,15 @@ export class RateHttpController {
   ): Promise<ResultDto<TypeORMError>> {
     return this.rateUseCase.deleteRate(queryParams);
   }
+
+  @Route({
+    title: 'Edit rate',
+    description: 'edit rate by id',
+    method: HttpMethodEnum.PUT,
+  })
+  public async editRateById(
+    @Body() body: RateDto,
+  ): Promise<ResultDto<TypeORMError>> {
+    return await this.rateUseCase.editRate(body);
+  }
 }

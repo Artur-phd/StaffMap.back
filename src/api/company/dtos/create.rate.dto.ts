@@ -1,6 +1,17 @@
-import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
 export class RateDto {
+  @IsOptional()
+  @IsUUID()
+  id?: string;
+
   @IsString()
   title: string;
 

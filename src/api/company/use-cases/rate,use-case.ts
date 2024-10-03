@@ -23,4 +23,8 @@ export class RateUseCase {
   ): Promise<ResultDto<TypeORMError>> {
     return this.rateService.deleteRate(payload.title);
   }
+
+  public async editRate(payload: RateDto): Promise<ResultDto<TypeORMError>> {
+    return await this.rateService.editById(payload);
+  }
 }
