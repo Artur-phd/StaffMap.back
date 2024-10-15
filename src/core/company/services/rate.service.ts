@@ -42,7 +42,6 @@ export class RateService {
 
   public async deleteRate(title: string): Promise<ResultDto<TypeORMError>> {
     try {
-      console.log(`title: ${title}`);
       await this.rateRepository.delete({ title });
       return { result: true };
     } catch (error) {

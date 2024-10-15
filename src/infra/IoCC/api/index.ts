@@ -1,7 +1,6 @@
-import { CompanyApiModule } from "./company.api.module";
+import { AuthApiModule } from './auth.api.module';
+import { CompanyApiModule } from './company.api.module';
 
-export const apiModules = [
-    CompanyApiModule
-]
+export const apiModules = [CompanyApiModule, AuthApiModule];
 
-export * from './api.module'
+export * from './api.module';

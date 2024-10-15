@@ -1,1 +1,1 @@
-export * from './company.main.controller'
+export * from './rate.controller';

@@ -13,14 +13,15 @@ import { HttpMethodEnum } from '../enums/app';
 import { OperationObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { RoleEnum } from '../enums/user';
+import { Roles } from 'src/api/auth/decorators';
 
 export type RoutOptions = {
   method: AppEnums.HttpMethodEnum;
   title: string;
-  roles?: UserEnums.RoleEnum[];
   description?: string;
   path?: string;
   code?: HttpStatus;
+  roles?: UserEnums.RoleEnum[];
 };
 
 export const Route = (options: RoutOptions) => {
@@ -48,6 +49,7 @@ export const Route = (options: RoutOptions) => {
   if (roles) {
     const avaibleRoles = roles.length === 0 ? Object.values(RoleEnum) : roles;
     decorators.push(
+      Roles(...roles),
       ApiBearerAuth(`AccessToken`),
       ApiOperation({
         ...apiOperationsPayload,
