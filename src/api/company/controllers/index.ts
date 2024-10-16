@@ -1,1 +1,2 @@
-export * from './rate.controller';
+export * from './rate.http.controller';
+export * from './consultation.http.controller';

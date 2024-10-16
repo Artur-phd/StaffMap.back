@@ -1,8 +1,8 @@
-import { RateEntity } from './entities';
-import { RateService } from './services';
+import { ConsultationEntity, RateEntity } from './entities';
+import { ConsultationService, RateService } from './services';
 
-export const companyEntities = [RateEntity];
+export const companyEntities = [RateEntity, ConsultationEntity];
 
-export const companyProviders = [RateService];
+export const companyProviders = [RateService, ConsultationService];
 
-export const companyExports = [RateService];
+export const companyExports = [RateService, ConsultationService];
