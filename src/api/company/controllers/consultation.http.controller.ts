@@ -5,6 +5,7 @@ import { Route } from 'src/shared/decorators';
 import { HttpMethodEnum } from 'src/shared/enums/app';
 import { ConsultationDto, DeleteOrderConsultationDto } from '../dtos';
 import { ConsultationEntity } from 'src/core/company/entities';
+import { ResponseDto } from 'src/shared/dtos';
 
 @ApiTags('consultation')
 @Controller('consultation')
@@ -25,8 +26,8 @@ export class ConsultationHttpController {
     description: 'Get all orders for call',
     method: HttpMethodEnum.GET,
   })
-  public async getAllOrders(): Promise<ConsultationEntity[]> {
-    return await this.consultationUseCase.getAllOrders();
+  public async getAllOrders(): Promise<ResponseDto<ConsultationEntity[]>> {
+    return { data: await this.consultationUseCase.getAllOrders() };
   }
 
   @Route({
