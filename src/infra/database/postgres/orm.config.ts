@@ -5,6 +5,7 @@ import { ConfigLoaders, ConfigTypes } from 'src/infra/app-config';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { join } from 'path';
 import { userEntities } from 'src/core/users';
+import { productEntities } from 'src/core/product';
 
 export const ormConfig = (
   dbConfig: ConfigTypes.DatabaseConfigType | object,
@@ -16,7 +17,7 @@ export const ormConfig = (
     logging: false,
     synchronize: false,
     migrations: [migrationsDir],
-    entities: [...companyEntities, ...userEntities],
+    entities: [...companyEntities, ...userEntities, ...productEntities],
     autoLoadEntities: true,
     migrationsRun: true,
   };
