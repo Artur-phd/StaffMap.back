@@ -12,6 +12,9 @@ export class PointsEntity {
   })
   id: string;
 
+  @Column({ name: 'title' })
+  title: string;
+
   @Column({ name: 'money_rate' })
   moneyRate: number;
 
@@ -23,6 +26,9 @@ export class PointsEntity {
 
   @Column({ name: 'work_hours' })
   workHours: number;
+
+  @Column({ name: 'address' })
+  address: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
