@@ -17,4 +17,8 @@ export class PointsUseCase {
   public async deletePointById(payload: QueryPointDto) {
     return await this.pointsService.deletePointById(payload.id);
   }
+
+  public async editPointById(payload: PointDto, id: string) {
+    return await this.pointsService.editById(payload, id);
+  }
 }

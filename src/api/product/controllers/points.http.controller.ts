@@ -38,4 +38,16 @@ export class PointsHttpController {
   public async deleteById(@Query() queryParam: QueryPointDto) {
     return await this.pointsUseCase.deletePointById(queryParam);
   }
+
+  @Route({
+    title: 'Edit that point',
+    description: 'by id',
+    method: HttpMethodEnum.PUT,
+  })
+  public async editPoint(
+    @Query() queryParam: QueryPointDto,
+    @Body() body: PointDto,
+  ) {
+    return await this.pointsUseCase.editPointById(body, queryParam.id);
+  }
 }

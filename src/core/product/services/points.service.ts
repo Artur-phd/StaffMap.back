@@ -35,4 +35,10 @@ export class PointsService {
     }
     throw new HttpException('Completed', 204);
   }
+
+  public async editById(payload: PointDto, id: string) {
+    const editedPoint = this.pointsRepository.create(payload);
+    await this.pointsRepository.update(id, editedPoint);
+    throw new HttpException('Edited', 201);
+  }
 }
