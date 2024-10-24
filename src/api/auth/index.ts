@@ -5,9 +5,16 @@ import { JwtHelper } from './helpers/jwt.helpers';
 import { JwtGuard } from './guards';
 import { JwtStrategy } from './strategies/strategy.jwt';
 import { UserCoreModule } from 'src/infra/IoCC/core/user.core.module';
+import { TokenProfile } from './profiles';
 
 export const authControllers = [CreateUserHttpController];
 
-export const authProviders = [AuthUseCase, JwtHelper, JwtGuard, JwtStrategy];
+export const authProviders = [
+  AuthUseCase,
+  JwtHelper,
+  JwtGuard,
+  JwtStrategy,
+  TokenProfile,
+];
 
 export const authImports = [CompanyCoreModule, UserCoreModule];
