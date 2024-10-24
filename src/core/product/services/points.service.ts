@@ -29,6 +29,10 @@ export class PointsService {
   }
 
   public async deletePointById(id: string) {
-    return await this.pointsRepository.delete({ id });
+    const deletedElement = await this.pointsRepository.delete({ id });
+    if (deletedElement.affected === 0) {
+      throw new BadRequestException('Ошибка при удалении');
+    }
+    throw new HttpException('Completed', 204);
   }
 }
