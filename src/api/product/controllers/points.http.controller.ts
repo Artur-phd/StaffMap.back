@@ -3,9 +3,11 @@ import { ApiTags } from '@nestjs/swagger';
 import { Route } from 'src/shared/decorators';
 import { HttpMethodEnum } from 'src/shared/enums/app';
 import { PointsUseCase } from '../use-cases';
-import { ResponseDto } from 'src/shared/dtos';
+import { ResponseDto, TokenPayloadDto } from 'src/shared/dtos';
 import { PointsEntity } from 'src/core/product/entities';
 import { PointDto, QueryPointDto } from '../dtos';
+import { RoleEnum } from 'src/shared/enums/user';
+import { CurrentUser } from 'src/api/auth/decorators';
 
 @ApiTags('points')
 @Controller('points')
@@ -15,24 +17,33 @@ export class PointsHttpController {
   @Route({
     title: 'get all my points',
     description: 'get points which is my',
+    roles: [RoleEnum.ADMIN, RoleEnum.MANAGER],
     method: HttpMethodEnum.GET,
   })
-  public async getAllPoints(): Promise<ResponseDto<PointsEntity[]>> {
-    return { data: await this.pointsUseCase.getAllMyPoints() };
+  public async getAllPoints(
+    @CurrentUser() user: TokenPayloadDto,
+  ): Promise<ResponseDto<PointsEntity[]>> {
+    console.log(user);
+    return { data: await this.pointsUseCase.getAllMyPoints(user.id) };
   }
 
   @Route({
     title: 'Add point',
     description: 'Add',
+    roles: [RoleEnum.ADMIN, RoleEnum.MANAGER],
     method: HttpMethodEnum.POST,
   })
-  public async addNewPoint(@Body() body: PointDto) {
-    return await this.pointsUseCase.addNewBusinessPoint(body);
+  public async addNewPoint(
+    @Body() body: PointDto,
+    @CurrentUser() user: TokenPayloadDto,
+  ) {
+    return await this.pointsUseCase.addNewBusinessPoint(body, user.id);
   }
 
   @Route({
     title: 'Delete point',
     description: 'Delete by id',
+    roles: [RoleEnum.ADMIN, RoleEnum.MANAGER, RoleEnum.SUPERADMIN],
     method: HttpMethodEnum.DELETE,
   })
   public async deleteById(@Query() queryParam: QueryPointDto) {
@@ -42,6 +53,7 @@ export class PointsHttpController {
   @Route({
     title: 'Edit that point',
     description: 'by id',
+    roles: [RoleEnum.ADMIN, RoleEnum.MANAGER],
     method: HttpMethodEnum.PUT,
   })
   public async editPoint(

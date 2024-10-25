@@ -11,11 +11,23 @@ export class PointsService {
     private readonly pointsRepository: Repository<PointsEntity>,
   ) {}
 
-  public async getAllPoints(): Promise<PointsEntity[]> {
-    return await this.pointsRepository.find({ order: { title: 'ASC' } });
+  public async getPointsIsMy(id: string): Promise<PointsEntity[]> {
+    return await this.pointsRepository.find({
+      order: { title: 'ASC' },
+      where: { user: { id } },
+      select: {
+        id: true,
+        title: true,
+        moneyRate: true,
+        minStaff: true,
+        maxStaff: true,
+        workHours: true,
+        address: true,
+      },
+    });
   }
 
-  public async addPoint(payload: PointDto): Promise<void> {
+  public async addPoint(payload): Promise<void> {
     const { title } = payload;
     const checkCloneByTitle = await this.pointsRepository.findOneBy({
       title,

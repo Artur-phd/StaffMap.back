@@ -1,7 +1,9 @@
+import { UserEntity } from 'src/core/users/entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 @Entity('points')
@@ -35,4 +37,11 @@ export class PointsEntity {
 
   @CreateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  // Relations
+
+  @ManyToOne(() => UserEntity, (user) => user.point, {
+    nullable: false,
+  })
+  user: UserEntity;
 }

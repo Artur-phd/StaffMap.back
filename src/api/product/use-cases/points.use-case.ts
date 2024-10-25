@@ -6,12 +6,15 @@ import { PointDto, QueryPointDto } from '../dtos';
 export class PointsUseCase {
   constructor(private readonly pointsService: PointsService) {}
 
-  public async getAllMyPoints() {
-    return await this.pointsService.getAllPoints();
+  public async getAllMyPoints(id: string) {
+    return await this.pointsService.getPointsIsMy(id);
   }
 
-  public async addNewBusinessPoint(payload: PointDto): Promise<void> {
-    return await this.pointsService.addPoint(payload);
+  public async addNewBusinessPoint(
+    payload: PointDto,
+    userId: string,
+  ): Promise<void> {
+    return await this.pointsService.addPoint({ ...payload, user: userId });
   }
 
   public async deletePointById(payload: QueryPointDto) {

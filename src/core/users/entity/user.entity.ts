@@ -1,9 +1,12 @@
 import { AutoMap } from '@automapper/classes';
+import { PointsEntity } from 'src/core/product/entities';
 import { UserEnums } from 'src/shared/enums';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -61,4 +64,17 @@ export class UserEntity {
     name: 'updated_at',
   })
   updatedAt: Date;
+
+  // Relations
+
+  @OneToMany(() => PointsEntity, (point) => point.id, {
+    cascade: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({
+    name: 'point_id',
+    foreignKeyConstraintName: 'FK-point-user',
+  })
+  point: PointsEntity;
 }
