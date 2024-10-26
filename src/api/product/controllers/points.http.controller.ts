@@ -23,7 +23,6 @@ export class PointsHttpController {
   public async getAllPoints(
     @CurrentUser() user: TokenPayloadDto,
   ): Promise<ResponseDto<PointsEntity[]>> {
-    console.log(user);
     return { data: await this.pointsUseCase.getAllMyPoints(user.id) };
   }
 
@@ -36,18 +35,21 @@ export class PointsHttpController {
   public async addNewPoint(
     @Body() body: PointDto,
     @CurrentUser() user: TokenPayloadDto,
-  ) {
+  ): Promise<void> {
     return await this.pointsUseCase.addNewBusinessPoint(body, user.id);
   }
 
   @Route({
     title: 'Delete point',
     description: 'Delete by id',
-    roles: [RoleEnum.ADMIN, RoleEnum.MANAGER, RoleEnum.SUPERADMIN],
+    roles: [RoleEnum.ADMIN, RoleEnum.MANAGER],
     method: HttpMethodEnum.DELETE,
   })
-  public async deleteById(@Query() queryParam: QueryPointDto) {
-    return await this.pointsUseCase.deletePointById(queryParam);
+  public async deleteById(
+    @Query() queryParam: QueryPointDto,
+    @CurrentUser() user: TokenPayloadDto,
+  ): Promise<void> {
+    return await this.pointsUseCase.deletePointById(queryParam, user.id);
   }
 
   @Route({
@@ -59,7 +61,8 @@ export class PointsHttpController {
   public async editPoint(
     @Query() queryParam: QueryPointDto,
     @Body() body: PointDto,
-  ) {
-    return await this.pointsUseCase.editPointById(body, queryParam.id);
+    @CurrentUser() user: TokenPayloadDto,
+  ): Promise<void> {
+    return await this.pointsUseCase.editPointById(body, queryParam.id, user.id);
   }
 }

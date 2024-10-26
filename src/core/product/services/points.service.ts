@@ -28,9 +28,10 @@ export class PointsService {
   }
 
   public async addPoint(payload): Promise<void> {
-    const { title } = payload;
+    const { title, user } = payload;
     const checkCloneByTitle = await this.pointsRepository.findOneBy({
       title,
+      user: { id: user },
     });
     if (checkCloneByTitle) {
       throw new BadRequestException('Пункт с таким названием уже существует');
@@ -40,17 +41,32 @@ export class PointsService {
     throw new HttpException('Completed', 201);
   }
 
-  public async deletePointById(id: string) {
-    const deletedElement = await this.pointsRepository.delete({ id });
-    if (deletedElement.affected === 0) {
+  public async deletePointById(id: string, userId: string): Promise<void> {
+    const deletedElement = await this.pointsRepository.delete({
+      id,
+      user: { id: userId },
+    });
+    if (!deletedElement.affected) {
       throw new BadRequestException('Ошибка при удалении');
     }
     throw new HttpException('Completed', 204);
   }
 
-  public async editById(payload: PointDto, id: string) {
+  public async editById(
+    payload: PointDto,
+    pointId: string,
+    userId: string,
+  ): Promise<void> {
     const editedPoint = this.pointsRepository.create(payload);
-    await this.pointsRepository.update(id, editedPoint);
+    const edited = await this.pointsRepository.update(
+      { id: pointId, user: { id: userId } },
+      editedPoint,
+    );
+    if (!edited.affected) {
+      throw new BadRequestException(
+        'Ошибка, возможно указан неверный id пункта',
+      );
+    }
     throw new HttpException('Edited', 201);
   }
 }
