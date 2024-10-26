@@ -22,6 +22,9 @@ export class Migrations1729883087049 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "points" ADD CONSTRAINT "FK_b777120b2815c7a2c3e2cb1e350" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
     );
+    await queryRunner.query(
+      `INSERT INTO rate (title, points, financial_control, artificial_intelligence, employees_of_the_some_class, automation_of_payments, active, price) VALUES ('Start', 10, true, false, 15, false, true, 750), ('Basic', 30, true, true, 45, true, true, 1499), ('Pro', 100, true, true, 70, true, true, 5000)`,
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
