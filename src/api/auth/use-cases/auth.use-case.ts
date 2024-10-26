@@ -4,10 +4,16 @@ import { Transactional } from 'typeorm-transactional';
 import { JwtHelper } from '../helpers/jwt.helpers';
 import { LogInAuthDto, SingUpAuthDto, TokenResponseDto } from '../dtos';
 import { verify } from 'argon2';
+import { Mapper } from '@automapper/core';
+import { InjectMapper } from '@automapper/nestjs';
+import { UserEntity } from 'src/core/users/entity';
+import { TokenPayloadDto } from 'src/shared/dtos';
 
 @Injectable()
 export class AuthUseCase {
   constructor(
+    @InjectMapper()
+    private readonly mapper: Mapper,
     private readonly userService: UserService,
     private readonly jwtHelper: JwtHelper,
   ) {}
@@ -20,9 +26,10 @@ export class AuthUseCase {
       throw new BadRequestException('Пользователь уже существует');
     }
     await this.userService.createUser(payload);
-    const token = await this.jwtHelper.create(
-      await this.userService.findByEmail(email),
-    );
+    const user = await this.userService.findByEmail(email);
+    const tokenPayload = this.mapper.map(user, UserEntity, TokenPayloadDto);
+
+    const token = await this.jwtHelper.create(tokenPayload);
     return { token };
   }
 
@@ -34,7 +41,12 @@ export class AuthUseCase {
       throw new BadRequestException('Неверный логин или пароль');
     }
     if (await verify(userIsActive.password, password)) {
-      const token = await this.jwtHelper.create(userIsActive);
+      const tokenPayload = this.mapper.map(
+        userIsActive,
+        UserEntity,
+        TokenPayloadDto,
+      );
+      const token = await this.jwtHelper.create(tokenPayload);
       return { token };
     } else {
       throw new BadRequestException('Неверный логин или пароль');

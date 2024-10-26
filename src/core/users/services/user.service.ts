@@ -23,7 +23,6 @@ export class UserService {
       await this.userRepository.insert(newUser);
       return true;
     } catch (error) {
-      console.log(error);
       throw new BadRequestException(
         'Ошибка при создании пользователя - повторите позже',
       );
