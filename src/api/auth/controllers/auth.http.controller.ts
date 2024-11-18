@@ -1,5 +1,5 @@
 import { Body, Controller } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { Route } from 'src/shared/decorators';
 import { HttpMethodEnum } from 'src/shared/enums/app';
 import { AuthUseCase } from '../use-cases';
@@ -16,6 +16,7 @@ export class CreateUserHttpController {
     method: HttpMethodEnum.POST,
     path: 'sing-up',
   })
+  @ApiBody({ type: SingUpAuthDto, description: 'data for sign up' })
   public async singUpUser(
     @Body() body: SingUpAuthDto,
   ): Promise<TokenResponseDto> {
@@ -28,6 +29,7 @@ export class CreateUserHttpController {
     method: HttpMethodEnum.POST,
     path: 'login',
   })
+  @ApiBody({ type: LogInAuthDto, description: 'email and password' })
   public async login(@Body() body: LogInAuthDto): Promise<TokenResponseDto> {
     return this.authUseCase.loginUser(body);
   }
