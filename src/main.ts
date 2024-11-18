@@ -9,8 +9,8 @@ async function bootstrap() {
   initializeTransactionalContext();
   const app = await NestFactory.create(AppModule, { logger });
   const config = new DocumentBuilder()
-    .setTitle('Notes API')
-    .setDescription('The notes API description')
+    .setTitle('StaffMap API documentation')
+    .setDescription('The API description')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
