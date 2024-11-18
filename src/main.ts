@@ -8,13 +8,16 @@ async function bootstrap() {
   const logger = AppFactory.logger;
   initializeTransactionalContext();
   const app = await NestFactory.create(AppModule, { logger });
+  await new AppFactory(app).useGlobalPipes().useCors();
+
   const config = new DocumentBuilder()
     .setTitle('StaffMap API documentation')
     .setDescription('The API description')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
-  await new AppFactory(app).useGlobalPipes().useCors().listen();
+  SwaggerModule.setup('api_docX', app, document);
+
+  await new AppFactory(app).listen();
 }
 bootstrap();
