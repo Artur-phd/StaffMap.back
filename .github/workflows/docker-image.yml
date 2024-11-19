@@ -48,8 +48,3 @@ jobs:
 
       name: start application 
       run: node dist/main.js
-
-
-
-  deploy:
-    
