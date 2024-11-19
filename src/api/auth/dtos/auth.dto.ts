@@ -1,38 +1,40 @@
 import { AutoMap } from '@automapper/classes';
-import { IsEnum, IsOptional, IsString } from 'class-validator';
-import { UserEnums } from 'src/shared/enums';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsString } from 'class-validator';
 
 export class SingUpAuthDto {
+  @ApiProperty()
   @AutoMap()
   @IsString()
   email: string;
 
+  @ApiProperty()
   @AutoMap()
   @IsString()
   password: string;
 
+  @ApiProperty()
   @AutoMap()
   @IsString()
   firstName: string;
 
+  @ApiProperty()
   @AutoMap()
   @IsString()
   lastName: string;
 
+  @ApiProperty()
   @AutoMap()
   @IsString()
   birthday: string;
-
-  @AutoMap()
-  @IsEnum(UserEnums.RoleEnum)
-  @IsOptional()
-  role?: UserEnums.RoleEnum = UserEnums.RoleEnum.ADMIN;
 }
 
 export class LogInAuthDto {
+  @ApiProperty()
   @IsString()
   email: string;
 
+  @ApiProperty()
   @IsString()
   password: string;
 }
