@@ -7,44 +7,11 @@ on:
     branches: [ "dev", "master" ]
 
 jobs:
-  build:
-    name: Build project
-    runs-on: ubuntu-latest
-
-    steps:
-      name: Checkout repository
-      uses: actions/checkout@v4
-      
-      name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20
-
-      name: install packages
-      run: pnpm install --frozen-lockfile
-
-      name: build
-      run: pnpm build
-
-      name: delete packages for not prod version
-      run: pnpm prune --prod
-
-  
   deploy:
-    name: Build project
-    runs-on: ubuntu-latest
-
-
-    needs: build
-    
+    runs-on: ubuntu-latest    
     steps:
       name: Checkout repository
       uses: actions/checkout@v4
-
-      name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20
 
       name: start application 
-      run: node dist/main.js
+      run: docker compose up -d
