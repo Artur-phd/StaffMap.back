@@ -1,17 +1,17 @@
 name: Docker Image CI
 
-on:
-  push:
-    branches: [ "dev", "master", feat/ci ]
-  pull_request:
-    branches: [ "dev", "master" ]
+  on:
+    push:
+      branches: [ "dev", "master", feat/ci ]
+    pull_request:
+      branches: [ "dev", "master" ]
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest    
-    steps:
-      name: Checkout repository
-      uses: actions/checkout@v4
+  jobs:
+    deploy:
+      runs-on: ubuntu-latest    
+      steps:
+        name: Checkout repository
+        uses: actions/checkout@v4
 
-      name: start application 
-      run: docker compose up -d
+        name: start application 
+        run: docker compose up -d
