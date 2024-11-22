@@ -29,6 +29,7 @@ jobs:
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          BASE_URL: ${{ secrets.BASE_URL }}
         run:  |
          echo "Setting environment variables for Docker..."
          export APP_PORT
@@ -40,4 +41,5 @@ jobs:
          export POSTGRES_DB
          export POSTGRES_USER
          export POSTGRES_PASSWORD
+         export BASE_URL
          docker compose up -d
