@@ -12,6 +12,12 @@ on:
       - main
 
 jobs:
+
+  build:
+    runs-on: self-hosted
+    steps:
+      - name: build backend image
+        run: docker build -t backend .
   deploy:
     runs-on: self-hosted 
     steps:
