@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgis/postgis:15-3.4
-    container_name: staffmap_postgres
+    container_name: ${POSTGRES_HOST}
     restart: unless-stopped
     environment:
       POSTGRES_HOST: ${POSTGRES_HOST}
@@ -10,3 +10,37 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - '${POSTGRES_PORT}:5432'
+    networks:
+      - my_network
+    healthcheck:
+      test: ["CMD-SHELL", "echo RUN"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    container_name: backend-app
+    image: backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    build: . 
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      BASE_URL: ${BASE_URL}
+      JWT_SECRET: ${JWT_SECRET}
+      CRYPTO_SECRET: ${CRYPTO_SECRET}
+      TZ: ${TZ}
+      APP_PORT: ${APP_PORT}
+    expose:
+      - ${APP_PORT}
+    ports:
+      - '${APP_PORT}:3001'
+    networks:
+      - my_network
+networks:
+  my_network:
+    driver: bridge
