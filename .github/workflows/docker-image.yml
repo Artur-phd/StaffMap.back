@@ -1,0 +1,51 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+  pull_request:
+    branches: 
+      - dev
+      - main
+
+jobs:
+
+  build:
+    runs-on: self-hosted
+    steps:
+      - name: build backend image
+        run: docker build -t backend .
+  deploy:
+    runs-on: self-hosted 
+    needs: build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Start application 
+        env:
+          APP_PORT: ${{ secrets.APP_PORT }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          CRYPTO_SECRET: ${{ secrets.JWT_SECRET }}
+          TZ: ${{ secrets.TZ }}
+          POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+          POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          BASE_URL: ${{ secrets.BASE_URL }}
+        run:  |
+         echo "Setting environment variables for Docker..."
+         export APP_PORT
+         export JWT_SECRET
+         export CRYPTO_SECRET
+         export TZ
+         export POSTGRES_HOST
+         export POSTGRES_PORT
+         export POSTGRES_DB
+         export POSTGRES_USER
+         export POSTGRES_PASSWORD
+         export BASE_URL
+         docker compose up -d
