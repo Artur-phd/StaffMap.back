@@ -24,5 +24,3 @@ COPY --from=build /opt/dist ./dist
 COPY --from=build /opt/node_modules ./node_modules
 COPY --from=build /opt/package.json ./package.json
 CMD [ "node", "dist/main.js" ]
-
-

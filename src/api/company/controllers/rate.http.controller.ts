@@ -1,5 +1,5 @@
 import { Body, Controller, Query } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiHeader, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { RateUseCase } from '../use-cases';
 import { Route } from 'src/shared/decorators';
 import { HttpMethodEnum } from 'src/shared/enums/app';
@@ -7,6 +7,7 @@ import { ResponseDto, ResultDto } from 'src/shared/dtos';
 import { RateEntity } from 'src/core/company/entities';
 import { DeleteRateDtoByTitle, RateDto } from '../dtos';
 import { TypeORMError } from 'typeorm';
+import { RoleEnum } from 'src/shared/enums/user';
 
 @ApiTags('rate')
 @Controller('rate')
@@ -26,7 +27,10 @@ export class RateHttpController {
     title: 'Create new rate',
     description: 'add new rate',
     method: HttpMethodEnum.POST,
+    roles: [RoleEnum.SUPERADMIN],
   })
+  @ApiBody({ type: RateDto })
+  @ApiHeader({ name: 's-access-token', description: 'jwt token' })
   public createNewRate(
     @Body() body: RateDto,
   ): Promise<ResultDto<TypeORMError>> {
@@ -37,7 +41,10 @@ export class RateHttpController {
     title: 'Delete the rate',
     description: 'delete by title',
     method: HttpMethodEnum.DELETE,
+    roles: [RoleEnum.SUPERADMIN],
   })
+  @ApiQuery({ name: 'title', required: true })
+  @ApiHeader({ name: 's-access-token', description: 'jwt token' })
   public deleteRateByTitle(
     @Query() queryParams: DeleteRateDtoByTitle,
   ): Promise<ResultDto<TypeORMError>> {
@@ -48,7 +55,9 @@ export class RateHttpController {
     title: 'Edit rate',
     description: 'edit rate by id',
     method: HttpMethodEnum.PUT,
+    roles: [RoleEnum.SUPERADMIN],
   })
+  @ApiBody({ type: RateDto })
   public async editRateById(
     @Body() body: RateDto,
   ): Promise<ResultDto<TypeORMError>> {

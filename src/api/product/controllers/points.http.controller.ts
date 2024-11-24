@@ -1,5 +1,5 @@
 import { Body, Controller, Query } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiHeader, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Route } from 'src/shared/decorators';
 import { HttpMethodEnum } from 'src/shared/enums/app';
 import { PointsUseCase } from '../use-cases';
@@ -20,6 +20,7 @@ export class PointsHttpController {
     roles: [RoleEnum.ADMIN, RoleEnum.MANAGER],
     method: HttpMethodEnum.GET,
   })
+  @ApiHeader({ name: 's-access-token', description: 'jwt token' })
   public async getAllPoints(
     @CurrentUser() user: TokenPayloadDto,
   ): Promise<ResponseDto<PointsEntity[]>> {
@@ -32,6 +33,7 @@ export class PointsHttpController {
     roles: [RoleEnum.ADMIN, RoleEnum.MANAGER],
     method: HttpMethodEnum.POST,
   })
+  @ApiHeader({ name: 's-access-token', description: 'jwt token' })
   public async addNewPoint(
     @Body() body: PointDto,
     @CurrentUser() user: TokenPayloadDto,
@@ -45,6 +47,8 @@ export class PointsHttpController {
     roles: [RoleEnum.ADMIN, RoleEnum.MANAGER],
     method: HttpMethodEnum.DELETE,
   })
+  @ApiHeader({ name: 's-access-token', description: 'jwt token' })
+  @ApiQuery({ name: 'id' })
   public async deleteById(
     @Query() queryParam: QueryPointDto,
     @CurrentUser() user: TokenPayloadDto,
@@ -58,6 +62,9 @@ export class PointsHttpController {
     roles: [RoleEnum.ADMIN, RoleEnum.MANAGER],
     method: HttpMethodEnum.PUT,
   })
+  @ApiHeader({ name: 's-access-token', description: 'jwt token' })
+  @ApiQuery({ name: 'id' })
+  @ApiBody({ type: PointDto })
   public async editPoint(
     @Query() queryParam: QueryPointDto,
     @Body() body: PointDto,

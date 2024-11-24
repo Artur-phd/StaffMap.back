@@ -2,6 +2,7 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ConfigTypes } from './infra/app-config';
 import { AppEnums } from './shared/enums';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 export class AppFactory {
   private readonly configService: ConfigService;
@@ -34,13 +35,22 @@ export class AppFactory {
     return this;
   }
 
-  public async listen() {
+  public async listen(): Promise<INestApplication<any>> {
     const appConfigs = this.configService.getOrThrow(
       AppEnums.ConfigTypeEnum.APP,
     ) as ConfigTypes.AppConfigType;
 
-    await this._app.listen(appConfigs.port, () =>
+    return await this._app.listen(appConfigs.port, () =>
       AppFactory.logger.log(this.bootstrapMessage(appConfigs)),
     );
+  }
+  public swaggerGenerate() {
+    const config = new DocumentBuilder()
+      .setTitle('Notes API')
+      .setDescription('The notes API description')
+      .setVersion('1.0')
+      .build();
+    const document = SwaggerModule.createDocument(this._app, config);
+    SwaggerModule.setup('api', this._app, document);
   }
 }
