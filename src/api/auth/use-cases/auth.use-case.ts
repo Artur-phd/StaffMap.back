@@ -1,5 +1,4 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { UserService } from 'src/core/users/services';
 import { Transactional } from 'typeorm-transactional';
 import { JwtHelper } from '../helpers/jwt.helpers';
 import { LogInAuthDto, SingUpAuthDto, TokenResponseDto } from '../dtos';
@@ -8,6 +7,7 @@ import { Mapper } from '@automapper/core';
 import { InjectMapper } from '@automapper/nestjs';
 import { UserEntity } from 'src/core/users/entity';
 import { TokenPayloadDto } from 'src/shared/dtos';
+import { UserService } from 'src/core/users/services';
 
 @Injectable()
 export class AuthUseCase {

@@ -4,6 +4,7 @@ import { UserEntity } from '../entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEnums } from 'src/shared/enums';
 import { hash } from 'argon2';
+import { SingUpAuthDto } from 'src/api/auth/dtos';
 
 @Injectable()
 export class UserService {
@@ -12,7 +13,7 @@ export class UserService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  public async createUser(payload): Promise<boolean> {
+  public async createUser(payload: SingUpAuthDto): Promise<void> {
     try {
       const password = await hash(payload.password);
       const newUser = await this.userRepository.create({
@@ -21,8 +22,8 @@ export class UserService {
         role: UserEnums.RoleEnum.MANAGER,
       });
       await this.userRepository.insert(newUser);
-      return true;
-    } catch (error) {
+
+    } catch {
       throw new BadRequestException(
         'Ошибка при создании пользователя - повторите позже',
       );
