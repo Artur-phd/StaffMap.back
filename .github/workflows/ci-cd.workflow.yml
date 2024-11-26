@@ -15,15 +15,18 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: build backend image
         run: docker build -t backend .
   deploy:
     runs-on: self-hosted 
     needs: build
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
       - name: Start application 
         env:
           APP_PORT: ${{ secrets.APP_PORT }}
