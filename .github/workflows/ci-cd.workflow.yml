@@ -18,9 +18,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
       - name: build backend image
         run: docker build -t backend .
   deploy:
