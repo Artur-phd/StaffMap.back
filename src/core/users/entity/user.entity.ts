@@ -1,5 +1,6 @@
 import { AutoMap } from '@automapper/classes';
 import { PointsEntity } from 'src/core/product/entities';
+import { StaffEntity } from 'src/core/product/entities/staff.entities';
 import { UserEnums } from 'src/shared/enums';
 import {
   Column,
@@ -7,6 +8,7 @@ import {
   Entity,
   JoinColumn,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -77,4 +79,9 @@ export class UserEntity {
     foreignKeyConstraintName: 'FK-point-user',
   })
   point: PointsEntity;
+
+  @OneToOne(() => StaffEntity, (staff) => staff.id, {
+    nullable: false,
+  })
+  staff: StaffEntity;
 }
