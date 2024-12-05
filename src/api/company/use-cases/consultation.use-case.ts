@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConsultationEntity } from 'src/core/company/entities';
-import { ConsultationService } from 'src/core/company/services/consultation.service';
+import { ConsultationService } from 'src/core/company/services';
 import { ResultDto } from 'src/shared/dtos';
 import { TypeORMError } from 'typeorm';
 
