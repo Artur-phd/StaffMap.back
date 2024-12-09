@@ -5,6 +5,7 @@ import {
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 @Entity('points')
 export class PointsEntity {
@@ -32,10 +33,14 @@ export class PointsEntity {
   @Column({ name: 'address' })
   address: string;
 
-  @CreateDateColumn({ name: 'created_at' })
+  @CreateDateColumn({
+    name: 'created_at',
+  })
   createdAt: Date;
 
-  @CreateDateColumn({ name: 'updated_at' })
+  @UpdateDateColumn({
+    name: 'updated_at',
+  })
   updatedAt: Date;
 
   // Relations

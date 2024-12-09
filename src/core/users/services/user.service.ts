@@ -2,9 +2,9 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEnums } from 'src/shared/enums';
 import { hash } from 'argon2';
-import { SingUpAuthDto } from 'src/api/auth/dtos';
+import { RoleEnum } from 'src/shared/enums/user';
+import { QueryParamSignUpDto, SingUpAuthDto } from 'src/api/auth/dtos';
 
 @Injectable()
 export class UserService {
@@ -13,14 +13,22 @@ export class UserService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  public async createUser(payload: SingUpAuthDto): Promise<boolean> {
+  public async createUser(
+    payload: SingUpAuthDto,
+    metaData: QueryParamSignUpDto,
+  ): Promise<boolean> {
     try {
       const password = await hash(payload.password);
-      const newUser = await this.userRepository.create({
+      const userData = {
         ...payload,
         password,
-        role: UserEnums.RoleEnum.MANAGER,
-      });
+        role: RoleEnum.MANAGER,
+      };
+      if (metaData.role == RoleEnum.EMPLOY) {
+        console.log(1);
+        userData.role = metaData.role;
+      }
+      const newUser = await this.userRepository.create(userData);
       await this.userRepository.insert(newUser);
       return true;
     } catch {

@@ -1,9 +1,14 @@
-import { Body, Controller } from '@nestjs/common';
+import { Body, Controller, Query } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { Route } from 'src/shared/decorators';
 import { HttpMethodEnum } from 'src/shared/enums/app';
 import { AuthUseCase } from '../use-cases';
-import { LogInAuthDto, SingUpAuthDto, TokenResponseDto } from '../dtos';
+import {
+  LogInAuthDto,
+  QueryParamSignUpDto,
+  SingUpAuthDto,
+  TokenResponseDto,
+} from '../dtos';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -19,8 +24,9 @@ export class CreateUserHttpController {
   @ApiBody({ type: SingUpAuthDto, description: 'data for sign up' })
   public async singUpUser(
     @Body() body: SingUpAuthDto,
+    @Query() query: QueryParamSignUpDto,
   ): Promise<TokenResponseDto> {
-    return this.authUseCase.createUser(body);
+    return this.authUseCase.createUser(body, query);
   }
 
   @Route({

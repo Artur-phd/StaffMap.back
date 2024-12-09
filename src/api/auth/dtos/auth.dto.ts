@@ -1,6 +1,7 @@
 import { AutoMap } from '@automapper/classes';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
+import { RoleEnum } from 'src/shared/enums/user';
 
 export class SingUpAuthDto {
   @ApiProperty()
@@ -27,6 +28,16 @@ export class SingUpAuthDto {
   @AutoMap()
   @IsString()
   birthday: string;
+}
+
+export class QueryParamSignUpDto {
+  @IsOptional()
+  @IsString()
+  role?: RoleEnum;
+
+  @IsOptional()
+  @IsString()
+  inviter?: string;
 }
 
 export class LogInAuthDto {
