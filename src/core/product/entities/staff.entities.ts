@@ -9,6 +9,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { PointsEntity } from './points.entities';
 
 @Entity({ name: 'staff' })
 export class StaffEntity {
@@ -57,4 +58,11 @@ export class StaffEntity {
     foreignKeyConstraintName: 'FK-user-manager-staff',
   })
   manager: UserEntity;
+
+  @ManyToOne(() => PointsEntity, (point) => point.id, { nullable: true })
+  @JoinColumn({
+    name: 'point_now_id',
+    foreignKeyConstraintName: 'FK-point-staff',
+  })
+  pointNowId: PointsEntity;
 }

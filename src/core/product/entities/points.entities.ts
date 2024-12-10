@@ -4,9 +4,11 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { StaffEntity } from './staff.entities';
 @Entity('points')
 export class PointsEntity {
   @PrimaryGeneratedColumn('uuid', {
@@ -49,4 +51,7 @@ export class PointsEntity {
     nullable: false,
   })
   user: UserEntity;
+
+  @OneToMany(() => StaffEntity, (staff) => staff.id, { nullable: true })
+  staff: StaffEntity;
 }
