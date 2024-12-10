@@ -11,12 +11,19 @@ export class PointsService {
     private readonly pointsRepository: Repository<PointsEntity>,
   ) {}
 
-  public async getPointsIsMy(id: string): Promise<PointsEntity[]> {
+  public async getPointsWithUserIdOnly(): Promise<any[]> {
+    return await this.pointsRepository
+      .createQueryBuilder('points')
+      .leftJoin('points.user', 'user')
+      .addSelect('user.id')
+      .getMany();
+  }
+
+  public async getPointsIsMy(): Promise<PointsEntity[]> {
     return await this.pointsRepository.find({
       order: { title: 'ASC' },
-      where: { user: { id } },
       select: {
-        id: true,
+        user: { id: true },
         title: true,
         moneyRate: true,
         minStaff: true,
