@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { RateEntity } from '../entities';
 import { Repository } from 'typeorm';
 import { RateDto } from 'src/api/company/dtos';
 import { RateService } from '../services';
+import { RateEntity } from '../entities';
 
 const mockRateEntity = {
   id: '1',
