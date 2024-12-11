@@ -7,8 +7,8 @@ import { PointsEntity } from 'src/core/product/entities';
 export class PointsUseCase {
   constructor(private readonly pointsService: PointsService) {}
 
-  public async getAllMyPoints(id: string): Promise<PointsEntity[]> {
-    return await this.pointsService.getPointsIsMy(id);
+  public async getAllMyPoints(): Promise<PointsEntity[]> {
+    return await this.pointsService.getPointsIsMy();
   }
 
   public async addNewBusinessPoint(

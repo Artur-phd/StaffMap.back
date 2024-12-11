@@ -21,10 +21,8 @@ export class PointsHttpController {
     method: HttpMethodEnum.GET,
   })
   @ApiHeader({ name: 's-access-token', description: 'jwt token' })
-  public async getAllPoints(
-    @CurrentUser() user: TokenPayloadDto,
-  ): Promise<ResponseDto<PointsEntity[]>> {
-    return { data: await this.pointsUseCase.getAllMyPoints(user.id) };
+  public async getAllPoints(): Promise<ResponseDto<PointsEntity[]>> {
+    return { data: await this.pointsUseCase.getAllMyPoints() };
   }
 
   @Route({
