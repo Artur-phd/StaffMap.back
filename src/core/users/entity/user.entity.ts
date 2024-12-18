@@ -87,6 +87,7 @@ export class UserEntity {
 
   @OneToMany(() => StaffEntity, (staff) => staff.id, {
     nullable: false,
+    cascade: true,
   })
   staffId: StaffEntity;
 }
