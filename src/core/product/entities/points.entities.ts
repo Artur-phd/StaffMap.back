@@ -4,8 +4,11 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
+import { StaffEntity } from './staff.entities';
 @Entity('points')
 export class PointsEntity {
   @PrimaryGeneratedColumn('uuid', {
@@ -32,10 +35,14 @@ export class PointsEntity {
   @Column({ name: 'address' })
   address: string;
 
-  @CreateDateColumn({ name: 'created_at' })
+  @CreateDateColumn({
+    name: 'created_at',
+  })
   createdAt: Date;
 
-  @CreateDateColumn({ name: 'updated_at' })
+  @UpdateDateColumn({
+    name: 'updated_at',
+  })
   updatedAt: Date;
 
   // Relations
@@ -44,4 +51,7 @@ export class PointsEntity {
     nullable: false,
   })
   user: UserEntity;
+
+  @OneToMany(() => StaffEntity, (staff) => staff.id, { nullable: true })
+  staff: StaffEntity;
 }
