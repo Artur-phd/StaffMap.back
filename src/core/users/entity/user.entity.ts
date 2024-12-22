@@ -89,5 +89,5 @@ export class UserEntity {
     nullable: false,
     cascade: true,
   })
-  staffId: StaffEntity;
+  staffId: StaffEntity[];
 }

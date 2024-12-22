@@ -40,6 +40,14 @@ export class StaffEntity {
   @Column({ name: 'money_now', type: 'float', default: 0 })
   moneyNow: number;
 
+  @AutoMap()
+  @Column({
+    name: 'balance',
+    type: 'float',
+    default: 0,
+  })
+  balance: number;
+
   // Relations
   @OneToOne(() => UserEntity, (user) => user.id, {
     nullable: false,

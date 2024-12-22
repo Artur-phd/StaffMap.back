@@ -18,4 +18,21 @@ export class StaffService {
     });
     await this.staffRepository.insert(newEmployee);
   }
+
+  public async getAllMyStaff(id): Promise<StaffEntity[]> {
+    console.log(id);
+    return await this.staffRepository.find({
+      relations: { user: true },
+      where: { manager: { id } },
+      select: {
+        id: true,
+        user: {
+          firstName: true,
+          lastName: true,
+        },
+        balance: true,
+        moneyNow: true,
+      },
+    });
+  }
 }
