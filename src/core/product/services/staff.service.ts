@@ -20,7 +20,6 @@ export class StaffService {
   }
 
   public async getAllMyStaff(id): Promise<StaffEntity[]> {
-    console.log(id);
     return await this.staffRepository.find({
       relations: { user: true },
       where: { manager: { id } },
