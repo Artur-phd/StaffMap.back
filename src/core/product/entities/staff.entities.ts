@@ -3,11 +3,13 @@ import { UserEntity } from 'src/core/users/entity';
 import { RoleEnum } from 'src/shared/enums/user/roles';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { PointsEntity } from './points.entities';
 
@@ -47,6 +49,18 @@ export class StaffEntity {
     default: 0,
   })
   balance: number;
+
+  @AutoMap()
+  @CreateDateColumn({
+    name: 'created_at',
+  })
+  createdAt: Date;
+
+  @AutoMap()
+  @UpdateDateColumn({
+    name: 'updated_at',
+  })
+  updatedAt: Date;
 
   // Relations
   @OneToOne(() => UserEntity, (user) => user.id, {

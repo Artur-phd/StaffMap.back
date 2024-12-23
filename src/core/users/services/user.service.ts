@@ -25,7 +25,6 @@ export class UserService {
         role: RoleEnum.MANAGER,
       };
       if (metaData.role == RoleEnum.EMPLOY) {
-        console.log(1);
         userData.role = metaData.role;
       }
       const newUser = await this.userRepository.create(userData);
