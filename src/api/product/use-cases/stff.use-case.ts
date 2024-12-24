@@ -26,4 +26,10 @@ export class StaffUseCase {
       return await this.staffService.sendFineForOneStaff(payload);
     }
   }
+
+  public async choicePointFromStaff(payload) {
+    if (payload.role === RoleEnum.EMPLOY) {
+      return await this.staffService.choicePointForNow(payload);
+    }
+  }
 }

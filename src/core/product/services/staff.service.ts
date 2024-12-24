@@ -52,7 +52,7 @@ export class StaffService {
   }
 
   @Transactional()
-  public async sendFineForOneStaff(payload) {
+  public async sendFineForOneStaff(payload): Promise<void> {
     const employData = await this.getStaffOneById(payload.recipientUserId);
     const jobForUpdate = {
       where: { user: { id: payload.recipientUserId } },
@@ -74,5 +74,13 @@ export class StaffService {
     } else {
       throw new HttpException('error, maybe some property is incorrect', 400);
     }
+  }
+
+  public async choicePointForNow(payload): Promise<void> {
+    const employData = await this.getStaffOneById(payload.recipientUserId);
+    await this.staffRepository.update(
+      { id: employData.id },
+      { pointNowId: payload.pointId },
+    );
   }
 }
