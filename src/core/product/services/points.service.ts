@@ -76,4 +76,22 @@ export class PointsService {
     }
     throw new HttpException('Edited', 201);
   }
+
+  public async editPointHours(
+    pointDto: PointDto,
+    pointId: string,
+    workHours: number,
+  ): Promise<void> {
+    const editHours = this.pointsRepository.create(pointDto);
+    const edited = await this.pointsRepository.update(
+      { id: pointId },
+      { workHours: workHours, ...editHours },
+    );
+    if (!edited.affected) {
+      throw new BadRequestException(
+        'Ошибка, возможно указаны неверные часы работы пункта',
+      );
+    }
+    throw new HttpException('Edited', 201);
+  }
 }
