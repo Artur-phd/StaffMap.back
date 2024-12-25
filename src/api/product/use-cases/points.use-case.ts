@@ -32,4 +32,16 @@ export class PointsUseCase {
   ): Promise<void> {
     return await this.pointsService.editById(payload, id, userId);
   }
+
+  public async editPointHours(
+    pointDto: PointDto,
+    pointId: string,
+    workHours: number,
+  ): Promise<void> {
+    return await this.pointsService.editPointHours(
+      pointDto,
+      pointId,
+      workHours,
+    );
+  }
 }

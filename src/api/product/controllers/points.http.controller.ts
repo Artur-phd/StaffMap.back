@@ -70,4 +70,15 @@ export class PointsHttpController {
   ): Promise<void> {
     return await this.pointsUseCase.editPointById(body, queryParam.id, user.id);
   }
+
+  // @Route({
+  //   title: 'Edit point hours',
+  //   description: 'by id',
+  //   roles: [RoleEnum.ADMIN, RoleEnum.MANAGER],
+  //   method: HttpMethodEnum.PATCH,
+  // })
+  // @ApiHeader({ name: 's-access-token', description: 'jwt token' })
+  // @ApiQuery({ name: 'work hours' })
+  // @ApiBody({ type: PointDto })
+  // public async
 }
