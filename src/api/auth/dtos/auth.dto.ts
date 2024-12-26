@@ -31,10 +31,12 @@ export class SingUpAuthDto {
 }
 
 export class QueryParamSignUpDto {
+  @ApiProperty()
   @IsOptional()
   @IsString()
   role?: RoleEnum;
 
+  @ApiProperty()
   @IsOptional()
   @IsString()
   inviter?: string;

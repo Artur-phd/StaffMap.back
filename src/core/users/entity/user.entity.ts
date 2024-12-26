@@ -1,5 +1,5 @@
 import { AutoMap } from '@automapper/classes';
-import { PointsEntity } from 'src/core/product/entities';
+import { PointsEntity, TransactionsEntity } from 'src/core/product/entities';
 import { StaffEntity } from 'src/core/product/entities/staff.entities';
 import { UserEnums } from 'src/shared/enums';
 import {
@@ -7,6 +7,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  ManyToMany,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -89,5 +90,15 @@ export class UserEntity {
     nullable: false,
     cascade: true,
   })
-  staffId: StaffEntity;
+  staffId: StaffEntity[];
+
+  @ManyToMany(() => TransactionsEntity, (transaction) => transaction.id, {
+    nullable: true,
+  })
+  senderTransactionId: UserEntity;
+
+  @ManyToMany(() => TransactionsEntity, (transaction) => transaction.id, {
+    nullable: true,
+  })
+  recipientTransactionUserId: UserEntity;
 }
