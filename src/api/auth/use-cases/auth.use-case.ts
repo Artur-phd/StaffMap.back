@@ -33,7 +33,7 @@ export class AuthUseCase {
     const { email } = payload;
     const userIsActivated = await this.userService.findByEmail(email);
     if (userIsActivated) {
-      throw new BadRequestException('Пользователь уже существует');
+      throw new BadRequestException('user already exists');
     }
     await this.userService.createUser(payload, metaData);
     const user = await this.userService.findByEmail(email);
@@ -51,7 +51,7 @@ export class AuthUseCase {
     const { email, password } = payload;
     const userIsActive = await this.userService.findByEmail(email);
     if (!userIsActive) {
-      throw new BadRequestException('Неверный логин или пароль');
+      throw new BadRequestException('incorrect login or password');
     }
     if (await verify(userIsActive.password, password)) {
       const tokenPayload = this.mapper.map(
@@ -62,7 +62,7 @@ export class AuthUseCase {
       const token = await this.jwtHelper.create(tokenPayload);
       return { token };
     } else {
-      throw new BadRequestException('Неверный логин или пароль');
+      throw new BadRequestException('incorrect login or password');
     }
   }
 }

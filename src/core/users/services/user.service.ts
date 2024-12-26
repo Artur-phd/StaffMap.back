@@ -32,7 +32,7 @@ export class UserService {
       return true;
     } catch {
       throw new BadRequestException(
-        'Ошибка при создании пользователя - повторите позже',
+        'Error creating a new user, please try again later',
       );
     }
   }
