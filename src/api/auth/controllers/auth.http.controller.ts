@@ -1,5 +1,5 @@
 import { Body, Controller, Query } from '@nestjs/common';
-import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Route } from 'src/shared/decorators';
 import { HttpMethodEnum } from 'src/shared/enums/app';
 import { AuthUseCase } from '../use-cases';
@@ -22,6 +22,7 @@ export class CreateUserHttpController {
     path: 'sing-up',
   })
   @ApiBody({ type: SingUpAuthDto, description: 'data for sign up' })
+  @ApiQuery({ type: QueryParamSignUpDto, description: 'for invite employs' })
   public async singUpUser(
     @Body() body: SingUpAuthDto,
     @Query() query: QueryParamSignUpDto,
