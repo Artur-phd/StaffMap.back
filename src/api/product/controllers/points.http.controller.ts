@@ -71,14 +71,23 @@ export class PointsHttpController {
     return await this.pointsUseCase.editPointById(body, queryParam.id, user.id);
   }
 
-  // @Route({
-  //   title: 'Edit point hours',
-  //   description: 'by id',
-  //   roles: [RoleEnum.ADMIN, RoleEnum.MANAGER],
-  //   method: HttpMethodEnum.PATCH,
-  // })
-  // @ApiHeader({ name: 's-access-token', description: 'jwt token' })
-  // @ApiQuery({ name: 'work hours' })
-  // @ApiBody({ type: PointDto })
-  // public async
+  @Route({
+    title: 'Edit point hours',
+    description: 'by id',
+    roles: [RoleEnum.ADMIN, RoleEnum.MANAGER],
+    method: HttpMethodEnum.PATCH,
+  })
+  @ApiHeader({ name: 's-access-token', description: 'jwt token' })
+  @ApiQuery({ name: 'id' })
+  @ApiBody({ type: PointDto })
+  public async updatePointHours(
+    @Query() queryParam: QueryPointDto,
+    @Body() body: PointDto,
+  ): Promise<void> {
+    return await this.pointsUseCase.editPointHours(
+      body,
+      queryParam.id,
+      body.workHours,
+    );
+  }
 }
