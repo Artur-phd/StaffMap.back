@@ -33,15 +33,7 @@ export class PointsUseCase {
     return await this.pointsService.editById(payload, id, userId);
   }
 
-  public async editPointHours(
-    pointDto: PointDto,
-    pointId: string,
-    workHours: number,
-  ): Promise<void> {
-    return await this.pointsService.editPointHours(
-      pointDto,
-      pointId,
-      workHours,
-    );
+  public async getWorkingHoursByPointId(id: string): Promise<string> {
+    return this.pointsService.getPointWorkingHours(id);
   }
 }

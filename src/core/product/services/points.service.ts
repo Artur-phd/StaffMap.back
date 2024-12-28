@@ -1,4 +1,9 @@
-import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PointsEntity } from '../entities';
 import { Repository } from 'typeorm';
@@ -77,21 +82,16 @@ export class PointsService {
     throw new HttpException('Edited', 201);
   }
 
-  public async editPointHours(
-    pointDto: PointDto,
-    pointId: string,
-    workHours: number,
-  ): Promise<void> {
-    const editHours = this.pointsRepository.create(pointDto);
-    const edited = await this.pointsRepository.update(
-      { id: pointId },
-      { workHours: workHours, ...editHours },
-    );
-    if (!edited.affected) {
-      throw new BadRequestException(
-        'Ошибка, возможно указаны неверные часы работы пункта',
-      );
+  public async getPointWorkingHours(id: string): Promise<any> {
+    const point = await this.pointsRepository.findOne({
+      where: { id },
+      select: ['workHours'],
+    });
+
+    if (!point) {
+      throw new NotFoundException(`Point with id ${id} not found`);
     }
-    throw new HttpException('Edited', 201);
+
+    return point.workHours;
   }
 }
