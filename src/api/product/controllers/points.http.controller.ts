@@ -72,15 +72,21 @@ export class PointsHttpController {
   }
 
   @Route({
-    title: 'Get point working hours',
-    description: 'Retrieve working hours of a point by its ID',
+    title: 'Update point working hours',
+    description: 'Update and return new working hours of a point by its ID',
     roles: [RoleEnum.ADMIN, RoleEnum.MANAGER],
-    method: HttpMethodEnum.GET,
+    method: HttpMethodEnum.PUT,
   })
   @ApiHeader({ name: 's-access-token', description: 'JWT token' })
   @ApiQuery({ name: 'id' })
-  @ApiBody({ type: PointDto })
-  public async getPointWorkingHours(@Query('id') id: string): Promise<string> {
-    return await this.pointsUseCase.getWorkingHoursByPointId(id);
+  @ApiBody({ schema: { example: { newWorkingHours: '09:00-20:00' } } })
+  public async updatePointWorkingHours(
+    @Query('id') id: string,
+    @Body('newWorkingHours') newWorkingHours: number,
+  ): Promise<string> {
+    return await this.pointsUseCase.updatePointWorkingHours(
+      id,
+      newWorkingHours,
+    );
   }
 }

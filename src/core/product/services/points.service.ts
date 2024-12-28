@@ -82,15 +82,18 @@ export class PointsService {
     throw new HttpException('Edited', 201);
   }
 
-  public async getPointWorkingHours(id: string): Promise<any> {
-    const point = await this.pointsRepository.findOne({
-      where: { id },
-      select: ['workHours'],
-    });
+  public async updateWorkingHours(
+    id: string,
+    newWorkingHours: number,
+  ): Promise<any> {
+    const point = await this.pointsRepository.findOne({ where: { id } });
 
     if (!point) {
       throw new NotFoundException(`Point with id ${id} not found`);
     }
+
+    point.workHours = newWorkingHours;
+    await this.pointsRepository.save(point);
 
     return point.workHours;
   }
