@@ -40,7 +40,7 @@ export class StaffHttpController {
 
   @Route({
     path: 'choice_point_now_as_staff',
-    method: HttpMethodEnum.POST,
+    method: HttpMethodEnum.PATCH,
     title: 'choice point for now (employ)',
     roles: [RoleEnum.EMPLOY],
   })
