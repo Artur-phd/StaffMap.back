@@ -24,8 +24,11 @@ export class StaffService {
     await this.staffRepository.insert(newEmployee);
   }
 
-  public async getAllMyStaff(id): Promise<StaffEntity[]> {
-    return await this.staffRepository.find({
+  public async getAllMyStaff(
+    id,
+    { take, skip },
+  ): Promise<[StaffEntity[], number]> {
+    return await this.staffRepository.findAndCount({
       relations: { user: true },
       where: { manager: { id } },
       select: {
@@ -37,6 +40,8 @@ export class StaffService {
         balance: true,
         moneyNow: true,
       },
+      take,
+      skip,
     });
   }
 
