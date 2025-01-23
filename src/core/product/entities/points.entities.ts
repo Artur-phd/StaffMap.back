@@ -1,3 +1,4 @@
+import { AutoMap } from '@automapper/classes';
 import { UserEntity } from 'src/core/users/entity';
 import {
   Column,
@@ -8,6 +9,7 @@ import {
 } from 'typeorm';
 @Entity('points')
 export class PointsEntity {
+  [x: string]: any;
   @PrimaryGeneratedColumn('uuid', {
     name: 'id',
     primaryKeyConstraintName: 'PK-points',
@@ -37,6 +39,15 @@ export class PointsEntity {
 
   @CreateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @AutoMap()
+  @Column({
+    type: 'bool',
+    name: 'is_trail_end',
+    default: false,
+    nullable: false,
+  })
+  isTrailEnd?: boolean;
 
   // Relations
 

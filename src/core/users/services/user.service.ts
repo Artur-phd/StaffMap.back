@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEnums } from 'src/shared/enums';
 import { hash } from 'argon2';
 import { SingUpAuthDto } from 'src/api/auth/dtos';
+import { addMonths } from 'date-fns';
 
 @Injectable()
 export class UserService {
@@ -16,10 +17,13 @@ export class UserService {
   public async createUser(payload: SingUpAuthDto): Promise<boolean> {
     try {
       const password = await hash(payload.password);
+      const createdAt = new Date();
       const newUser = await this.userRepository.create({
         ...payload,
         password,
         role: UserEnums.RoleEnum.MANAGER,
+        createdAt: createdAt,
+        trailEnd: addMonths(createdAt, 2),
       });
       await this.userRepository.insert(newUser);
       return true;
