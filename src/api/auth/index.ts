@@ -6,6 +6,7 @@ import { JwtGuard } from './guards';
 import { JwtStrategy } from './strategies/strategy.jwt';
 import { UserCoreModule } from 'src/infra/IoCC/core/user.core.module';
 import { TokenProfile } from './profiles';
+import { ProductCoreModule } from 'src/infra/IoCC/core/product.core.module';
 
 export const authControllers = [CreateUserHttpController];
 
@@ -17,4 +18,8 @@ export const authProviders = [
   TokenProfile,
 ];
 
-export const authImports = [CompanyCoreModule, UserCoreModule];
+export const authImports = [
+  CompanyCoreModule,
+  UserCoreModule,
+  ProductCoreModule,
+];

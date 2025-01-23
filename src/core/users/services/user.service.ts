@@ -2,10 +2,14 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEnums } from 'src/shared/enums';
 import { hash } from 'argon2';
+
 import { SingUpAuthDto } from 'src/api/auth/dtos';
 import { addMonths } from 'date-fns';
+
+import { RoleEnum } from 'src/shared/enums/user';
+import { QueryParamSignUpDto, SingUpAuthDto } from 'src/api/auth/dtos';
+
 
 @Injectable()
 export class UserService {
@@ -14,9 +18,13 @@ export class UserService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  public async createUser(payload: SingUpAuthDto): Promise<boolean> {
+  public async createUser(
+    payload: SingUpAuthDto,
+    metaData: QueryParamSignUpDto,
+  ): Promise<boolean> {
     try {
       const password = await hash(payload.password);
+
       const createdAt = new Date();
       const newUser = await this.userRepository.create({
         ...payload,
@@ -25,11 +33,20 @@ export class UserService {
         createdAt: createdAt,
         trailEnd: addMonths(createdAt, 2),
       });
+      const userData = {
+        ...payload,
+        password,
+        role: RoleEnum.MANAGER,
+      };
+      if (metaData.role == RoleEnum.EMPLOY) {
+        userData.role = metaData.role;
+      }
+      const newUser = await this.userRepository.create(userData);
       await this.userRepository.insert(newUser);
       return true;
     } catch {
       throw new BadRequestException(
-        'Ошибка при создании пользователя - повторите позже',
+        'Error creating a new user, please try again later',
       );
     }
   }
