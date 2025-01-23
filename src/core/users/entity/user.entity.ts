@@ -57,7 +57,7 @@ export class UserEntity {
   @CreateDateColumn({
     name: 'trail_end',
   })
-  trailEnd: Date;
+  trailEnd?: Date;
 
   @AutoMap()
   @Column({

@@ -4,12 +4,11 @@ import { UserEntity } from '../entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { hash } from 'argon2';
 
-import { SingUpAuthDto } from 'src/api/auth/dtos';
 import { addMonths } from 'date-fns';
 
 import { RoleEnum } from 'src/shared/enums/user';
 import { QueryParamSignUpDto, SingUpAuthDto } from 'src/api/auth/dtos';
-
+import { UserEnums } from 'src/shared/enums';
 
 @Injectable()
 export class UserService {
@@ -41,7 +40,7 @@ export class UserService {
       if (metaData.role == RoleEnum.EMPLOY) {
         userData.role = metaData.role;
       }
-      const newUser = await this.userRepository.create(userData);
+      // const newUser = await this.userRepository.create(userData);
       await this.userRepository.insert(newUser);
       return true;
     } catch {
