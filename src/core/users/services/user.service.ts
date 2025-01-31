@@ -3,8 +3,12 @@ import { Repository } from 'typeorm';
 import { UserEntity } from '../entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { hash } from 'argon2';
+
+import { addMonths } from 'date-fns';
+
 import { RoleEnum } from 'src/shared/enums/user';
 import { QueryParamSignUpDto, SingUpAuthDto } from 'src/api/auth/dtos';
+import { UserEnums } from 'src/shared/enums';
 
 @Injectable()
 export class UserService {
@@ -19,6 +23,15 @@ export class UserService {
   ): Promise<boolean> {
     try {
       const password = await hash(payload.password);
+
+      const createdAt = new Date();
+      const newUser = await this.userRepository.create({
+        ...payload,
+        password,
+        role: UserEnums.RoleEnum.MANAGER,
+        createdAt: createdAt,
+        trailEnd: addMonths(createdAt, 2),
+      });
       const userData = {
         ...payload,
         password,
@@ -27,7 +40,6 @@ export class UserService {
       if (metaData.role == RoleEnum.EMPLOY) {
         userData.role = metaData.role;
       }
-      const newUser = await this.userRepository.create(userData);
       await this.userRepository.insert(newUser);
       return true;
     } catch {

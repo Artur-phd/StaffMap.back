@@ -1,4 +1,4 @@
-import { Body, Controller, Query } from '@nestjs/common';
+import { Body, Controller, Query, UseGuards } from '@nestjs/common';
 import { ApiBody, ApiHeader, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Route } from 'src/shared/decorators';
 import { HttpMethodEnum } from 'src/shared/enums/app';
@@ -8,9 +8,11 @@ import { PointsEntity } from 'src/core/product/entities';
 import { PointDto, QueryPointDto } from '../dtos';
 import { RoleEnum } from 'src/shared/enums/user';
 import { CurrentUser } from 'src/api/auth/decorators';
+import { IsUserActiveGuard } from '../guards/isUserActive.guard';
 
 @ApiTags('points')
 @Controller('points')
+@UseGuards(IsUserActiveGuard)
 export class PointsHttpController {
   constructor(private readonly pointsUseCase: PointsUseCase) {}
 
@@ -71,14 +73,22 @@ export class PointsHttpController {
     return await this.pointsUseCase.editPointById(body, queryParam.id, user.id);
   }
 
-  // @Route({
-  //   title: 'Edit point hours',
-  //   description: 'by id',
-  //   roles: [RoleEnum.ADMIN, RoleEnum.MANAGER],
-  //   method: HttpMethodEnum.PATCH,
-  // })
-  // @ApiHeader({ name: 's-access-token', description: 'jwt token' })
-  // @ApiQuery({ name: 'work hours' })
-  // @ApiBody({ type: PointDto })
-  // public async
+  @Route({
+    title: 'Update point working hours',
+    description: 'Update and return new working hours of a point by its ID',
+    roles: [RoleEnum.ADMIN, RoleEnum.MANAGER],
+    method: HttpMethodEnum.PUT,
+  })
+  @ApiHeader({ name: 's-access-token', description: 'JWT token' })
+  @ApiQuery({ name: 'id' })
+  @ApiBody({ schema: { example: { newWorkingHours: '09:00-20:00' } } })
+  public async updatePointWorkingHours(
+    @Query('id') id: string,
+    @Body('newWorkingHours') newWorkingHours: number,
+  ): Promise<string> {
+    return await this.pointsUseCase.updatePointWorkingHours(
+      id,
+      newWorkingHours,
+    );
+  }
 }

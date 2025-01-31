@@ -11,6 +11,7 @@ import {
 import { StaffEntity } from './staff.entities';
 @Entity('points')
 export class PointsEntity {
+  [x: string]: any;
   @PrimaryGeneratedColumn('uuid', {
     name: 'id',
     primaryKeyConstraintName: 'PK-points',

@@ -54,6 +54,12 @@ export class UserEntity {
   createdAt: Date;
 
   @AutoMap()
+  @CreateDateColumn({
+    name: 'trail_end',
+  })
+  trailEnd?: Date;
+
+  @AutoMap()
   @Column({
     type: 'bool',
     name: 'is_blocked',
