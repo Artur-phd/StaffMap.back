@@ -9,7 +9,7 @@ import { UserEntity } from 'src/core/users/entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class IsTrailEndGuard implements CanActivate {
+export class IsUserActiveGuard implements CanActivate {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,

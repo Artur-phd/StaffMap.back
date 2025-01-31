@@ -40,7 +40,6 @@ export class UserService {
       if (metaData.role == RoleEnum.EMPLOY) {
         userData.role = metaData.role;
       }
-      // const newUser = await this.userRepository.create(userData);
       await this.userRepository.insert(newUser);
       return true;
     } catch {

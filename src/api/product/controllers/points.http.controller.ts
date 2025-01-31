@@ -8,10 +8,11 @@ import { PointsEntity } from 'src/core/product/entities';
 import { PointDto, QueryPointDto } from '../dtos';
 import { RoleEnum } from 'src/shared/enums/user';
 import { CurrentUser } from 'src/api/auth/decorators';
-import { IsTrailEndGuard } from '../guards/trail-period.guard';
+import { IsUserActiveGuard } from '../guards/isUserActive.guard';
 
 @ApiTags('points')
 @Controller('points')
+@UseGuards(IsUserActiveGuard)
 export class PointsHttpController {
   constructor(private readonly pointsUseCase: PointsUseCase) {}
 
@@ -22,7 +23,6 @@ export class PointsHttpController {
     method: HttpMethodEnum.GET,
   })
   @ApiHeader({ name: 's-access-token', description: 'jwt token' })
-  @UseGuards(IsTrailEndGuard)
   public async getAllPoints(): Promise<ResponseDto<PointsEntity[]>> {
     return { data: await this.pointsUseCase.getAllMyPoints() };
   }
@@ -34,7 +34,6 @@ export class PointsHttpController {
     method: HttpMethodEnum.POST,
   })
   @ApiHeader({ name: 's-access-token', description: 'jwt token' })
-  @UseGuards(IsTrailEndGuard)
   public async addNewPoint(
     @Body() body: PointDto,
     @CurrentUser() user: TokenPayloadDto,
@@ -49,7 +48,6 @@ export class PointsHttpController {
     method: HttpMethodEnum.DELETE,
   })
   @ApiHeader({ name: 's-access-token', description: 'jwt token' })
-  @UseGuards(IsTrailEndGuard)
   @ApiQuery({ name: 'id' })
   public async deleteById(
     @Query() queryParam: QueryPointDto,
@@ -67,7 +65,6 @@ export class PointsHttpController {
   @ApiHeader({ name: 's-access-token', description: 'jwt token' })
   @ApiQuery({ name: 'id' })
   @ApiBody({ type: PointDto })
-  @UseGuards(IsTrailEndGuard)
   public async editPoint(
     @Query() queryParam: QueryPointDto,
     @Body() body: PointDto,
@@ -85,7 +82,6 @@ export class PointsHttpController {
   @ApiHeader({ name: 's-access-token', description: 'JWT token' })
   @ApiQuery({ name: 'id' })
   @ApiBody({ schema: { example: { newWorkingHours: '09:00-20:00' } } })
-  @UseGuards(IsTrailEndGuard)
   public async updatePointWorkingHours(
     @Query('id') id: string,
     @Body('newWorkingHours') newWorkingHours: number,

@@ -1,4 +1,3 @@
-import { AutoMap } from '@automapper/classes';
 import { UserEntity } from 'src/core/users/entity';
 import {
   Column,
@@ -46,15 +45,6 @@ export class PointsEntity {
     name: 'updated_at',
   })
   updatedAt: Date;
-
-  @AutoMap()
-  @Column({
-    type: 'bool',
-    name: 'is_trail_end',
-    default: false,
-    nullable: false,
-  })
-  isTrailEnd?: boolean;
 
   // Relations
 
